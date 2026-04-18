@@ -16,20 +16,22 @@ class SupplierResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-o-truck';
     protected static ?string $navigationGroup = 'Master Data';
 
+    public static function canViewAny(): bool
+    {
+        return auth()->user()->isSuperAdmin();
+    }
+
+    /** @inheritDoc */
     public static function form(Form $form): Form
     {
         return $form->schema([
-            TextInput::make('supplier_kode')
-                ->required()
-                ->maxLength(10),
-            TextInput::make('supplier_nama')
-                ->required()
-                ->maxLength(100),
-            TextInput::make('supplier_alamat')
-                ->maxLength(255),
+            TextInput::make('supplier_kode')->required()->maxLength(10),
+            TextInput::make('supplier_nama')->required()->maxLength(100),
+            TextInput::make('supplier_alamat')->maxLength(255),
         ]);
     }
 
+    /** @inheritDoc */
     public static function table(Table $table): Table
     {
         return $table->columns([

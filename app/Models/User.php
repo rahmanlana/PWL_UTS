@@ -43,6 +43,16 @@ class User extends Authenticatable implements FilamentUser
         return $this->hasMany(Penjualan::class, 'user_id', 'user_id');
     }
 
+    public function isSuperAdmin(): bool
+    {
+        return $this->level?->level_kode === 'SAD';
+    }
+
+    public function isAdmin(): bool
+    {
+        return $this->level?->level_kode === 'ADM';
+    }
+
     protected $casts = [
         'password' => 'hashed',
     ];

@@ -15,20 +15,22 @@ class LevelResource extends Resource
     protected static ?string $model = Level::class;
     protected static ?string $navigationIcon = 'heroicon-o-shield-check';
     protected static ?string $navigationGroup = 'Master Data';
-    protected static ?string $label = 'Level';
 
+    public static function canViewAny(): bool
+    {
+        return auth()->user()->isSuperAdmin();
+    }
+
+    /** @inheritDoc */
     public static function form(Form $form): Form
     {
         return $form->schema([
-            TextInput::make('level_kode')
-                ->required()
-                ->maxLength(10),
-            TextInput::make('level_nama')
-                ->required()
-                ->maxLength(100),
+            TextInput::make('level_kode')->required()->maxLength(10),
+            TextInput::make('level_nama')->required()->maxLength(100),
         ]);
     }
 
+    /** @inheritDoc */
     public static function table(Table $table): Table
     {
         return $table->columns([

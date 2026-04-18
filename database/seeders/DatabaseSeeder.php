@@ -13,24 +13,26 @@ class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
-        // Level
-        $adminLevel = Level::create(['level_kode' => 'ADM', 'level_nama' => 'Administrator']);
-        Level::create(['level_kode' => 'KSR', 'level_nama' => 'Kasir']);
-        Level::create(['level_kode' => 'MGR', 'level_nama' => 'Manager']);
+        $superAdmin = Level::create(['level_kode' => 'SAD', 'level_nama' => 'Super Admin']);
+        $admin      = Level::create(['level_kode' => 'ADM', 'level_nama' => 'Admin']);
 
-        // User Admin
         User::create([
-            'level_id' => $adminLevel->level_id,
+            'level_id' => $superAdmin->level_id,
+            'username' => 'superadmin',
+            'nama'     => 'Super Admin',
+            'password' => Hash::make('superadmin123'),
+        ]);
+
+        User::create([
+            'level_id' => $admin->level_id,
             'username' => 'admin',
-            'nama'     => 'Administrator',
+            'nama'     => 'Admin',
             'password' => Hash::make('admin123'),
         ]);
 
-        // Kategori
         Kategori::create(['kategori_kode' => 'MKN', 'kategori_nama' => 'Makanan']);
         Kategori::create(['kategori_kode' => 'MNM', 'kategori_nama' => 'Minuman']);
 
-        // Supplier
         Supplier::create([
             'supplier_kode'   => 'SUP001',
             'supplier_nama'   => 'Supplier Utama',

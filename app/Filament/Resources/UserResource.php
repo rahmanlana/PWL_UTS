@@ -19,6 +19,12 @@ class UserResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-o-users';
     protected static ?string $navigationGroup = 'Master Data';
 
+    public static function canViewAny(): bool
+    {
+        return auth()->user()->isSuperAdmin();
+    }
+
+    /** @inheritDoc */
     public static function form(Form $form): Form
     {
         return $form->schema([
@@ -41,6 +47,7 @@ class UserResource extends Resource
         ]);
     }
 
+    /** @inheritDoc */
     public static function table(Table $table): Table
     {
         return $table->columns([

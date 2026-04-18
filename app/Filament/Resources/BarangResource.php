@@ -18,6 +18,27 @@ class BarangResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-o-archive-box';
     protected static ?string $navigationGroup = 'Master Data';
 
+    public static function canViewAny(): bool
+    {
+        return true;
+    }
+
+    public static function canCreate(): bool
+    {
+        return auth()->user()->isSuperAdmin();
+    }
+
+    public static function canEdit($record): bool
+    {
+        return auth()->user()->isSuperAdmin();
+    }
+
+    public static function canDelete($record): bool
+    {
+        return auth()->user()->isSuperAdmin();
+    }
+
+    /** @inheritDoc */
     public static function form(Form $form): Form
     {
         return $form->schema([
@@ -25,23 +46,14 @@ class BarangResource extends Resource
                 ->label('Kategori')
                 ->options(Kategori::pluck('kategori_nama', 'kategori_id'))
                 ->required(),
-            TextInput::make('barang_kode')
-                ->required()
-                ->maxLength(10),
-            TextInput::make('barang_nama')
-                ->required()
-                ->maxLength(100),
-            TextInput::make('harga_beli')
-                ->numeric()
-                ->required()
-                ->prefix('Rp'),
-            TextInput::make('harga_jual')
-                ->numeric()
-                ->required()
-                ->prefix('Rp'),
+            TextInput::make('barang_kode')->required()->maxLength(10),
+            TextInput::make('barang_nama')->required()->maxLength(100),
+            TextInput::make('harga_beli')->numeric()->required()->prefix('Rp'),
+            TextInput::make('harga_jual')->numeric()->required()->prefix('Rp'),
         ]);
     }
 
+    /** @inheritDoc */
     public static function table(Table $table): Table
     {
         return $table->columns([

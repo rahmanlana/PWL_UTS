@@ -22,6 +22,12 @@ class StokResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-o-arrow-down-tray';
     protected static ?string $navigationGroup = 'Transaksi';
 
+    public static function canViewAny(): bool
+    {
+        return auth()->user()->isSuperAdmin();
+    }
+
+    /** @inheritDoc */
     public static function form(Form $form): Form
     {
         return $form->schema([
@@ -35,16 +41,12 @@ class StokResource extends Resource
                 ->required(),
             Hidden::make('user_id')
                 ->default(fn() => Auth::id()),
-            DateTimePicker::make('stok_tanggal')
-                ->required()
-                ->default(now()),
-            TextInput::make('stok_jumlah')
-                ->numeric()
-                ->required()
-                ->minValue(1),
+            DateTimePicker::make('stok_tanggal')->required()->default(now()),
+            TextInput::make('stok_jumlah')->numeric()->required()->minValue(1),
         ]);
     }
 
+    /** @inheritDoc */
     public static function table(Table $table): Table
     {
         return $table->columns([

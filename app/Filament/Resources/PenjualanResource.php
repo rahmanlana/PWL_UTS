@@ -29,6 +29,26 @@ class PenjualanResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-o-shopping-cart';
     protected static ?string $navigationGroup = 'Transaksi';
 
+    public static function canViewAny(): bool
+    {
+        return true;
+    }
+
+    public static function canCreate(): bool
+    {
+        return auth()->user()->isAdmin();
+    }
+
+    public static function getEloquentQuery(): \Illuminate\Database\Eloquent\Builder
+    {
+        $query = parent::getEloquentQuery();
+        if (auth()->user()->isAdmin()) {
+            $query->where('user_id', auth()->user()->user_id);
+        }
+        return $query;
+    }
+
+    /** @inheritDoc */
     public static function form(Form $form): Form
     {
         return $form->schema([
@@ -88,6 +108,7 @@ class PenjualanResource extends Resource
         ]);
     }
 
+    /** @inheritDoc */
     public static function infolist(Infolist $infolist): Infolist
     {
         return $infolist->schema([
@@ -127,6 +148,7 @@ class PenjualanResource extends Resource
         ]);
     }
 
+    /** @inheritDoc */
     public static function table(Table $table): Table
     {
         return $table->columns([

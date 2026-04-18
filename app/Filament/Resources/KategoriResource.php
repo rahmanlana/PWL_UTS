@@ -16,18 +16,21 @@ class KategoriResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-o-tag';
     protected static ?string $navigationGroup = 'Master Data';
 
+    public static function canViewAny(): bool
+    {
+        return auth()->user()->isSuperAdmin();
+    }
+
+    /** @inheritDoc */
     public static function form(Form $form): Form
     {
         return $form->schema([
-            TextInput::make('kategori_kode')
-                ->required()
-                ->maxLength(10),
-            TextInput::make('kategori_nama')
-                ->required()
-                ->maxLength(100),
+            TextInput::make('kategori_kode')->required()->maxLength(10),
+            TextInput::make('kategori_nama')->required()->maxLength(100),
         ]);
     }
 
+    /** @inheritDoc */
     public static function table(Table $table): Table
     {
         return $table->columns([
