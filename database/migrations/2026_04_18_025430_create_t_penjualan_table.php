@@ -12,13 +12,13 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('t_penjualan', function (Blueprint $table) {
-            $table->integer('penjualan_id')->autoIncrement();
-            $table->integer('user_id');
-            $table->string('pembeli', 50);
+            $table->id('penjualan_id');
+            $table->string('pembeli', 50)->nullable();
             $table->string('penjualan_kode', 20);
             $table->dateTime('penjualan_tanggal');
+            $table->timestamps();
 
-            $table->foreign('user_id')->references('user_id')->on('m_user');
+            $table->foreignId('user_id')->constrained('m_user', 'user_id');
         });
     }
 

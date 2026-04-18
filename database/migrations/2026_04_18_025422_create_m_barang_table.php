@@ -12,14 +12,14 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('m_barang', function (Blueprint $table) {
-            $table->integer('barang_id')->autoIncrement();
-            $table->integer('kategori_id');
+            $table->id('barang_id');
             $table->string('barang_kode', 10);
             $table->string('barang_nama', 100);
             $table->integer('harga_beli');
             $table->integer('harga_jual');
+            $table->timestamps();
 
-            $table->foreign('kategori_id')->references('kategori_id')->on('m_kategori');
+            $table->foreignId('kategori_id')->constrained('m_kategori', 'kategori_id');
         });
     }
 

@@ -12,16 +12,13 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('t_stok', function (Blueprint $table) {
-            $table->integer('stok_id')->autoIncrement();
-            $table->integer('supplier_id');
-            $table->integer('barang_id');
-            $table->integer('user_id');
+            $table->id('stok_id');
+            $table->foreignId('supplier_id')->constrained('m_supplier', 'supplier_id');
+            $table->foreignId('barang_id')->constrained('m_barang', 'barang_id');
+            $table->foreignId('user_id')->constrained('m_user', 'user_id');
             $table->dateTime('stok_tanggal');
             $table->integer('stok_jumlah');
-
-            $table->foreign('supplier_id')->references('supplier_id')->on('m_supplier');
-            $table->foreign('barang_id')->references('barang_id')->on('m_barang');
-            $table->foreign('user_id')->references('user_id')->on('m_user');
+            $table->timestamps();
         });
     }
 

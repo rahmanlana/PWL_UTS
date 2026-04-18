@@ -12,9 +12,10 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('m_level', function (Blueprint $table) {
-            $table->integer('level_id')->autoIncrement();
+            $table->id('level_id');
             $table->string('level_kode', 10);
             $table->string('level_nama', 100);
+            $table->timestamps();
         });
     }
 

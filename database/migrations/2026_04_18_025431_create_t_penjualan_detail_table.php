@@ -12,14 +12,12 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('t_penjualan_detail', function (Blueprint $table) {
-            $table->integer('detail_id')->autoIncrement();
-            $table->integer('penjualan_id');
-            $table->integer('barang_id');
+            $table->id('detail_id');
+            $table->foreignId('penjualan_id')->constrained('t_penjualan', 'penjualan_id');
+            $table->foreignId('barang_id')->constrained('m_barang', 'barang_id');
             $table->integer('harga');
             $table->integer('jumlah');
-
-            $table->foreign('penjualan_id')->references('penjualan_id')->on('t_penjualan');
-            $table->foreign('barang_id')->references('barang_id')->on('m_barang');
+            $table->timestamps();
         });
     }
 
