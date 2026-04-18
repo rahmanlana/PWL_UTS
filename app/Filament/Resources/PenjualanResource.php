@@ -21,6 +21,8 @@ use Filament\Resources\Resource;
 use Filament\Tables\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use Filament\Tables\Actions\EditAction;
+use Filament\Tables\Actions\DeleteAction;
 use Illuminate\Support\Facades\Auth;
 
 class PenjualanResource extends Resource
@@ -147,6 +149,15 @@ class PenjualanResource extends Resource
                 ]),
         ]);
     }
+    public static function canEdit($record): bool
+    {
+        return auth()->user()->isSuperAdmin();
+    }
+
+    public static function canDelete($record): bool
+    {
+        return auth()->user()->isSuperAdmin();
+    }
 
     /** @inheritDoc */
     public static function table(Table $table): Table
@@ -165,6 +176,8 @@ class PenjualanResource extends Resource
             ->recordUrl(fn($record) => static::getUrl('view', ['record' => $record]))
             ->actions([
                 ViewAction::make(),
+                EditAction::make()->visible(fn() => auth()->user()->isSuperAdmin()),
+                DeleteAction::make()->visible(fn() => auth()->user()->isSuperAdmin()),
             ]);
     }
 
@@ -174,6 +187,7 @@ class PenjualanResource extends Resource
             'index'  => Pages\ListPenjualans::route('/'),
             'create' => Pages\CreatePenjualan::route('/create'),
             'view'   => Pages\ViewPenjualan::route('/{record}'),
+            'edit'   => Pages\EditPenjualan::route('/{record}/edit'),
         ];
     }
 }
