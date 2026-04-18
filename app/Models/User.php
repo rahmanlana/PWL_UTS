@@ -23,12 +23,6 @@ class User extends Authenticatable implements FilamentUser
 
     protected $hidden = ['password', 'remember_token'];
 
-    // Wajib untuk login username
-    public function getAuthIdentifierName(): string
-    {
-        return 'username';
-    }
-
     public function canAccessPanel(Panel $panel): bool
     {
         return true;
@@ -48,4 +42,8 @@ class User extends Authenticatable implements FilamentUser
     {
         return $this->hasMany(Penjualan::class, 'user_id', 'user_id');
     }
+
+    protected $casts = [
+        'password' => 'hashed',
+    ];
 }
